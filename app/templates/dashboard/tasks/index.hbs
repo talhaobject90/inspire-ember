@@ -1,0 +1,32 @@
+
+
+
+
+{{ember-chart type='Line' data=numberData width=600 height=200}}
+
+
+<div class="ui middle aligned divided list">
+
+  {{#each tasks as |task|}}
+
+  <div class="item">
+    <div class="right floated content">
+      <div class="ui button">Delete</div>
+    </div>
+    {{#link-to 'dashboard.tasks.task'  task}}
+    <h3>{{task.name}}</h3>
+    {{/link-to}}
+    <div class="content">
+
+
+
+
+
+    Estimated Hours: {{task.estdhours}}
+      {{#ui-progress percent=task.progress classNames="teal indicating"}}
+      <div class="bar"><div class="label">{{task.progress}} % completed</div></div>
+      {{/ui-progress}}
+    </div>
+  </div>
+{{/each}}
+</div>

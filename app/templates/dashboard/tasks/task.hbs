@@ -1,0 +1,79 @@
+
+
+
+{{ember-chart type='Line' data=numberData width=600 height=200}}
+<div class="ui middle aligned divided list well">
+
+  <div class="item">
+    <b>{{content-editable value=task.name placeholder="Task Name"   enter="save" allowNewlines=false}}</b>
+    <div class="right floated content">
+      {{content-editable value=task.estdhours placeholder="Estimated Hours" enter="save"    allowNewlines=false}} Hours
+    </div>
+
+    {{#ui-progress percent=task.progress classNames="teal indicating"}}
+    <div class="bar"><div class="label">{{task.progress}} % completed</div></div>
+    {{/ui-progress}}
+  </div>
+</div>
+
+
+<div class="ui middle aligned divided list ">
+  {{#each task.subtasks as |subtask|}}
+  <div class="item">
+    <div class="right floated content">
+      <div class="ui right labeled input ">
+
+
+        {{#if (and (eq subtask.addtoday false) (eq subtask.todayAdded false))}}
+        <div class="ui button" {{action "addToday" subtask }}>Add Today</div>
+        {{/if}}
+
+
+
+        {{#if (eq subtask.addtoday true)}}
+        <div class="ui buttons">
+          <button class="ui button" {{action "addToday" subtask}}>Cancel</button>
+          <div class="or"></div>
+          <button class="ui positive button  {{isaddNewTodayButtonActive}}" {{action "addNewToday" subtask }}>Save</button>
+        </div>
+        {{/if}}
+
+
+        {{#if (eq subtask.addtoday true)}}
+        {{input type=number  value=subtask.minutestoday}}
+        <div class="ui basic label">Minuites</div>
+
+        {{/if}}
+
+
+
+
+      </div>
+      {{#if (eq subtask.addtoday true)}}
+      {{paper-slider flex=true min='0' max='100' value=subtask.progress}}
+      {{/if}}
+
+      {{#if (not-eq subtask.addtoday true)}}
+      <div class="ui button negative" {{action "deleteSubtaskDaily" subtask}}>Delete</div>
+      {{/if}}
+    </div>
+
+
+
+    <h3>{{subtask.name}}</h3>
+    <div class="content">
+      Estimated Hours: {{subtask.estdhours}}
+      {{#ui-progress percent=subtask.progress classNames="teal indicating"}}
+      <div class="bar"><div class="label">{{subtask.progress}} % completed</div></div>
+      {{/ui-progress}}
+    </div>
+  </div>
+
+
+  {{/each}}
+
+</div>
+
+<button class="ui primary button"  {{action "addNewTask" task}}>
+  Add SubTask
+</button>
